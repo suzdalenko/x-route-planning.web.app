@@ -4,3 +4,4 @@ if(emailUserId){
 }
 
 
+console.log(window.localStorage)
