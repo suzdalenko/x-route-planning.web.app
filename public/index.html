@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- 
+        firebase email: suzdalenko.suzdalenko@gmail.com
+        python user   : misexo, mi.sexo.web.app@gmail.com
+    -->
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="https://xsuzdalenko.github.io/xboss/firebase/public/assets/imgs/c.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Planificador de rutas online - xBoss">
+    <meta name="author" content="Alexey Suzdalenko">
+    <title>Planificador de rutas</title>
+    <link href="https://x-route-planning.web.app/sb/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://x-route-planning.web.app/sb/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="https://x-route-planning.web.app/sb/css/my.css" rel="stylesheet">
+
+    <script defer src="/pages/assets/js/config.js"></script>
+    <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-app-compat.js"></script>
+    <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-auth-compat.js"></script>
+    <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-analytics-compat.js"></script>
+</head>
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <iframe width="100%" height="733" src="https://www.youtube.com/embed/QH2SSh8ywEs" title="Planificador de rutas" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <a href="https://x-route-planning.web.app/"><h1 class="h4 text-gray-900 mb-4">Planificador de Rutas</h1></a>
+                                        <h6>Login</h6>
+                                    </div>
+                                    <form class="user">
+                                        <br>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control form-control-user" id="InputEmail" placeholder="Email...">
+                                        </div><br>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user" id="InputPassword" placeholder="Contraseña">
+                                        </div><br>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Recordarme</label>
+                                            </div>
+                                        </div><br>
+                                        <a class="btn btn-primary btn-user btn-block" id="ALogin">Login</a>
+                                        <br>
+                                        <a href="/pages/register.html" class="btn btn-google btn-user btn-block">Registración</a>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="https://xboss.es" target="_blank">Creado por Alexey Suzdalenko</a>
+                                    </div>
+                                </div>
+                            </div>
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        var loginRutas      = null
+        var InputEmailEl    = document.getElementById('InputEmail')
+        var InputPasswordEL = document.getElementById('InputPassword')
+        var ALogin = document.getElementById('ALogin')
+            ALogin.addEventListener('click', () => {
+                let InputEmail    = InputEmailEl.value
+                let InputPassword = InputPasswordEL.value 
+                if(InputEmail && InputPassword){
+                    loginRutas.TryToLogin(InputEmail, InputPassword)
+                }
+            })
+
+
+        class LoginRutas {
+            constructor(FIREBASE_APP){
+                this.FIREBASE_APP = FIREBASE_APP.auth()
+            }
+            TryToLogin(email, password){
+                this.FIREBASE_APP.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                  var user = userCredential.user;
+                  console.log('user login', user)
+                  window.localStorage.setItem('uid', user.uid)
+                  window.localStorage.setItem('email', email)
+                  window.localStorage.setItem('password', password)
+                  PythonLogin(user.uid, email, password).then(loginOk => {
+                    if(loginOk == 'ok'){
+                        window.location.href = '/pages/dashboard.html'
+                    }
+                  })
+                })
+                .catch((error) => {
+                    ALogin.innerText = error.code
+                    this.SetDefaultLoginInfo()
+                })
+            }
+            SetDefaultLoginInfo(){
+                setTimeout(() => {
+                    ALogin.innerText = 'Login'
+                }, 3000)
+            }
+            SetDefaultEmailPassword(){
+                let userEmail = window.localStorage.getItem('email')
+                let userPass  = window.localStorage.getItem('password')
+                if(userEmail && userPass){
+                    InputEmailEl.value    = userEmail
+                    InputPasswordEL.value = userPass
+                }
+            }
+        }
+
+       
+
+        document.addEventListener('DOMContentLoaded', () => {
+            firebase.initializeApp(config)
+            var app = firebase.app() 
+            var analytics = firebase.analytics()
+
+            loginRutas = new LoginRutas(firebase)
+            loginRutas.SetDefaultEmailPassword()
+
+            
+        })
+    </script>
+</body>
+
+</html>

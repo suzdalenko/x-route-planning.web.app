@@ -1,0 +1,25 @@
+.hoverpointer:hover{
+    cursor: pointer;
+}
+.margintoprigth, .dropdown-menu-right{
+    margin-right: 3%!important;
+    margin-top: 1%!important;
+}
+.mloader{
+    width: 111px; height: 111px;
+}
+#loaderDiv{
+    position: absolute; top: 22%; left: 47%; z-index: 111;
+}
+.a_color_blue{
+    color: blue;
+}
+.a_color_blue:hover{
+    cursor: pointer;
+}
+.h_class:hover{
+    cursor: pointer;
+}
+.t_d_none, .t_d_none:hover{
+    text-decoration: none;
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificador de Rutas</title>
+    <link rel="icon" type="image/png" href="https://xsuzdalenko.github.io/xboss/firebase/public/assets/imgs/c.png">
+    <script defer src="/pages/assets/js/config.js"></script>
+    <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-app-compat.js"></script>
+    <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-auth-compat.js"></script>
+    <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-analytics-compat.js"></script>
+
+    <link href="/sb/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="/sb/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/pages/assets/css/style.css">
+</head>
+<body>
+    <div id="loaderDiv" style="display:none;">
+        <img src="/pages/assets/img/loader.gif"  alt="Planificador de Rutas Online" class="mloader">
+    </div>
+
+    <div id="wrapper">
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div>
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <h1 class="h4 text-gray-800"><a href="/pages/dashboard.html" class="t_d_none">Suzdalenko</a></h1>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-primary hoverpointer" title="Descargar archivo csv de ejemplo" href="https://x-route-planning.web.app/demo.csv">Descargar CSV Demo</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link text-primary hoverpointer" title="Cargar archivo csv listado pedidos" id="chargeFileInput">Cargar</a>
+                        </li>
+
+                        
+                        <div class="dropdown-list dropdown-menu dropdown-menu-right" style="margin:1% 3% 0 0;" id="menuUploadFileDiv">
+                            <h6 class="dropdown-header">Archivo listado pedidos</h6>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <div class="font-weight-bold">
+                                    <div class="text-truncate">Fecha Rutero</div>
+                                    <input type="date" class="btn btn-primary btn-icon-split btn-sm" id="routingDateInput"><br><br>
+                                    <div class="text-truncate">Archivo csv</div>
+                                    <input type="file" class="btn btn-primary btn-icon-split btn-sm" id="fileInput"><br><br> 
+                                    <input type="button" value="Enviar" class="btn btn-primary" id="sentFileButton">    
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="emailUserId"></span>
+                                <img class="img-profile rounded-circle" alt="Planificador de rutas" src="/sb/img/undraw_profile.svg">
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </nav>
+                <div class="container-fluid">
+                    <h1 class="h3 mb-2 text-gray-800"></h1>
+                    <p class="mb-4" id="demoTextId"></p>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Listado de archivos subidos</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr><th>Archivo</th><th>Fecha</th><th>Semana</th><th>Paletas</th><th>Kilos</th><th></th></tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr><th>Archivo</th><th>Fecha</th><th>Semana</th><th>Paletas</th><th>Kilos</th><th></th></tr>
+                                    </tfoot>
+                                    <tbody id="tbodyContentId"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <p class="h6 mb-4 text-gray-800"><a href="https://xboss.es" target="_blank">Alexey Suzdalenko</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let chargeFileInput   = document.getElementById('chargeFileInput')
+        let menuUploadFileDiv = document.getElementById('menuUploadFileDiv')
+        let routingDateInput  = document.getElementById('routingDateInput')
+        let fileInput         = document.getElementById('fileInput')
+        let sentFileButton    = document.getElementById('sentFileButton')
+    
+            let newDate = new Date()
+            let monthA = newDate.getMonth()+1
+            if(monthA < 10) monthA = '0'+monthA
+            let dayA = newDate.getDate()
+            if(dayA < 10) dayA = '0'+dayA
+            newDate = newDate.getFullYear()+'-'+monthA+'-'+dayA
+            routingDateInput.value = newDate
+
+            chargeFileInput.addEventListener('click', () => {
+                if(menuUploadFileDiv.style.display == 'none' || !menuUploadFileDiv.style.display){ menuUploadFileDiv.style.display = 'block' }
+                else if (menuUploadFileDiv.style.display == 'block') { menuUploadFileDiv.style.display = 'none' }
+            })
+
+            sentFileButton.addEventListener('click', () => {
+                
+                let formData = new FormData()
+                    formData.append('file', fileInput.files[0])
+                    formData.append('user_id', window.localStorage.getItem('user_id'))
+                    formData.append('uid', window.localStorage.getItem('uid'))
+                    formData.append('date', routingDateInput.value)
+                    formData.append('week', getWeekNumber(routingDateInput.value))
+                    LoaderSuzdalenko('block')
+                    
+                    fetch(PYTHON_URL+'uploadFileCollection/', {method:'POST', body: formData}).then(res => res.json()).then(res => {
+                        console.log('res', res)
+                        menuUploadFileDiv.style.display = 'none'
+                        LoaderSuzdalenko('none')
+                        LoadUserCollectionTable()
+                    }).catch(e => {
+                        LoaderSuzdalenko('none')
+                        alert(e)
+                    })
+            })          
+
+            function openOrdersOnMap(collectionId){
+                window.localStorage.setItem('collectionId', collectionId)
+                window.location.href = '/pages/ordersonmap.html'
+            }
+
+            function LoadUserCollectionTable(){
+                let USER_ID    = window.localStorage.getItem('user_id')
+                let PYTHON_URL = window.localStorage.getItem('PYTHON_URL')
+                fetch(PYTHON_URL+'getAllCollection/?user_id='+USER_ID).then(res => res.json()).then(jsonResponse => {
+                    if(!jsonResponse.data.length){
+                        document.getElementById('demoTextId').innerHTML = `Aún no tiene archivos csv con listados de pedidos subidos al servidor, crea y suba uno o use el archivo de ejemplo para 
+                        <a target="_blank" href="https://www.youtube.com/channel/UCHtjX4AYpZjRcwFA-pwUG0Q">la demostración</a>`
+                    }
+                    PaintCollectionTable(jsonResponse)
+                }).catch(e => {
+                    alert('Error collection for user')
+                })
+            }
+
+            function PaintCollectionTable(jsonResponse){
+                let tbodyContentId = document.getElementById('tbodyContentId')
+                let htmlContent    = ''
+                jsonResponse.data.forEach(item => {
+                    htmlContent += `<tr>
+                                        <td><a onclick="openOrdersOnMap(`+item.id+`)" class="a_color_blue">`+item.file_name+`</a></td>
+                                        <td>`+item.date+`</td>
+                                        <td>`+ +item.week+`</td>
+                                        <td>`+ +item.pallets+`</td>
+                                        <td>`+ +item.kilos+`</td>
+                                        <td><i onclick="deleteCollection(`+item.id+`, '`+item.file_name+`')" class="fa fa-trash h_class" aria-hidden="true"></i></td>
+                                    </tr>`
+                    console.log(item)
+                })
+                tbodyContentId.innerHTML = htmlContent
+            }
+
+            LoadUserCollectionTable()
+            
+            function deleteCollection(collectionId, fileName){
+                let varPermisDelete = confirm('¿Eliminar archivo '+fileName+' y sus rutas?')
+                if(varPermisDelete){
+                    LoaderSuzdalenko('block')
+                    let formData = new FormData();
+                        formData.append('user_id', window.localStorage.getItem('user_id'))
+                        formData.append('uid', window.localStorage.getItem('uid'))
+                        formData.append('collection_id', collectionId)
+                        fetch(PYTHON_URL+'deleteCollection', {method:'POST', body:formData}).then(res => res.json()).then((res) => {
+                           LoaderSuzdalenko('none'); LoadUserCollectionTable()
+                        }).catch(e => {
+                            LoaderSuzdalenko('none');
+                        })
+                }
+            }
+
+    </script>
+
+    <script>
+        var dashboard = null
+        class Dashboard{
+            constructor(fire){
+                this.FIREBASE_AUTH = fire.auth()
+            }
+            IAmAuthorized(email, password){
+                this.FIREBASE_AUTH.signInWithEmailAndPassword(email, password).then((userCredential) => {
+                    let user = userCredential.user
+                    window.localStorage.setItem('uid', user.uid)
+                    window.localStorage.setItem('email', email)
+                    window.localStorage.setItem('password', password)
+                    document.title = 'Cargando..'
+                    console.log('AUTORIZED='+user.uid+' '+email+' '+password)
+                    PythonLogin(user.uid, email, password)
+                }).catch((error) => {
+                    console.log("ERROR ERROR ERROR")
+                    console.log(error)
+                    this.NotAutorizedFirebase()
+                    alert('No estas logeado correctamente Google Firebase')
+                })
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            firebase.initializeApp(config)
+            var app = firebase.app() 
+            var analytics = firebase.analytics()
+
+            dashboard = new Dashboard(firebase)
+            let userEmail = window.localStorage.getItem('email') || ''
+            let userPass  = window.localStorage.getItem('password') || ''
+            if(userEmail && userPass){                                                          
+                dashboard.IAmAuthorized(userEmail, userPass)
+            } else {
+               dashboard.NotAutorizedFirebase()
+            }
+        })
+        
+        console.log(window.localStorage)
+    </script>
+    <script src="https://kit.fontawesome.com/778b634ff9.js" crossorigin="anonymous"></script>
+    <script src="/pages/assets/js/final.js"></script>
+</body>
+</html>
