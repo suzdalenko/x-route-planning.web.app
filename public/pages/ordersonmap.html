@@ -53,7 +53,7 @@
     <div class="container-fluid">
         <div class="row">
 
-            <div class="col-lg-2">
+            <div class="col-lg-2" style="overflow-y: auto; max-height: 88vh;">
                 <div class="card shadow">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Listado Pedidos</h6>
@@ -68,11 +68,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">Pedidos en el mapa</h6>
                     </a>
                     <div class="collapse show" id="collapseCardExample">
-                        <div class="card-body">
-                            This is a collapsable card example using Bootstrap's built in collapse
-                            functionality. <strong>Click on the card header</strong> to see the card body
-                            collapse and expand!
-                        </div>
+                        <div class="card-body" id="googleMap" style="width: 100%; height: 84vh;"></div>
                     </div>
                 </div>
             </div>
@@ -96,6 +92,7 @@
     </div>
     
     <script src="/pages/assets/js/final.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDKhqes2S-VlNPQmOi70qpJMkaCfhzyt4&callback=initMap&libraries=drawing" defer></script>
     <script src="/pages/assets/js/ordersonmap.js"></script>
 </body>
 </html>
