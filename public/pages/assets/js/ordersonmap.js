@@ -1,6 +1,7 @@
 let USER_ID                = window.localStorage.getItem("user_id")
 let COLLECTION_ID          = window.localStorage.getItem("collection_id") 
 let MYSITE_URL             = window.localStorage.getItem("PYTHON_URL")
+let UID                    = window.localStorage.getItem("uid")
 
 var ORDERS_LIST            = []
 var GOOGLE_MAP             = null
@@ -15,8 +16,8 @@ function getLinesCollection() {
     ORDERS_LIST        = []
 
     fetch(MYSITE_URL+'lines_collection/colection_user/?user_id='+USER_ID+'&colection_id='+COLLECTION_ID).then(res => res.json()).then(djangoResponse => {
-        djangoResponse.forEach(itemObj => {
-            infoObj = itemObj.fields; console.log(infoObj)
+        djangoResponse.forEach(itemObj => { 
+            infoObj = itemObj.fields
             ORDERS_LIST.push(infoObj)
             htmlListOrders +=   `<div title="Cuidad `+infoObj.city+`, Paletas ` +infoObj.palets+`, Kilos `+infoObj.kilos+`">`
                                     +infoObj.order_id+` `+infoObj.client_name+
@@ -37,7 +38,7 @@ function addMarkersInMap() {
             // if(item.__camion > 0){
             //     descrpcionMarker += ' CAMION('+item.__camion+')'
             // }
-            let markerData = {position: myLatlng, title: descrpcionMarker, linea_id: _orden_.id }
+            let markerData = {position: myLatlng, title: descrpcionMarker, line_id: _orden_.line_id }
             // if(item.__camion > 0)  { markerData.icon = '/portal/themes/llood/assets/markers/'+item.__camion+'.png';  }
             // if(item.__camion > 11) { markerData.icon = '/portal/themes/llood/assets/markers/11.png'; }
             let marker = new google.maps.Marker(markerData)
@@ -45,6 +46,45 @@ function addMarkersInMap() {
             marker.setMap(GOOGLE_MAP)
         }
     })
+}
+
+function createNewTrack (listadoIdLineasSeleccionadas){
+    if(listadoIdLineasSeleccionadas.length > 0){
+        setTimeout(() => {
+            LoaderSuzdalenko('block')        
+            let trackIdNameEmpty = prompt('¿Crear camión nuevo o añadir pedidos a ya existente? \n NOMBRE DE CAMIÓN - se crea un nuevo camión con nombre \n NUMERO DE CAMIÓN - se añade pedidos a un camión existente \n VACIO - se crea un nuevo camión sin nombre', '')
+            let stringArray      = ''
+                listadoIdLineasSeleccionadas.forEach(item => { stringArray += item+','; }); console.log(stringArray, listadoIdLineasSeleccionadas)
+            let typeTrack        = ''
+
+            if(trackIdNameEmpty == ''){
+                typeTrack = "empty"
+            } else {
+                let nameLoweeSplit = trackIdNameEmpty.toLowerCase().split('')
+                let alphabet       = 'qwertyuioplkjhgfdsazxcvbnm'
+                for(let i = 0; i < nameLoweeSplit.length; i++ ) {
+                    if(alphabet.includes(nameLoweeSplit[i])){
+                        typeTrack = "string"
+                        break
+                    }
+                        typeTrack = "number"
+                    }
+            }
+
+            let formData = new FormData()
+                formData.append('user_id', USER_ID)
+                formData.append('uid', UID)
+                formData.append('collection_id', COLLECTION_ID)
+                formData.append('list_lines_id', stringArray)
+                formData.append('track_data', trackIdNameEmpty)
+                formData.append('type_track', typeTrack)                   
+
+            fetch(MYSITE_URL+'post_parameters/create_new_track/', {method:'POST', body: formData}).then(res => res.json()).then(result => {
+                initMap()
+                LoaderSuzdalenko('none')
+            }).catch( e => LoaderSuzdalenko('none'))
+        }, 1111)
+    }
 }
 
 
@@ -61,17 +101,18 @@ function initMap() {
     })
     drawingManager.setMap(GOOGLE_MAP)
    
-    // google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
-    //     let listadoIdLineasSeleccionadas = []
-    //     listadoMarkers.forEach((markerA, index) => {
-    //         if(google.maps.geometry.poly.containsLocation(markerA.getPosition(), polygon) == true) {
-    //             listadoIdLineasSeleccionadas.push(markerA.linea_id)
-    //         }
-    //     }) 
-    //     listadoIdSeleccionados = listadoIdSeleccionados.concat(listadoIdLineasSeleccionadas)
-    //     pintarEnVerdeItemsSeleccionados(listadoIdSeleccionados)
-    //     // addNuevoCamion(listadoIdLineasSeleccionadas) 
-    // })
+    google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
+        let listadoIdLineasSeleccionadas = []
+        LISTADO_MARKERS.forEach(markerA => {
+            if(google.maps.geometry.poly.containsLocation(markerA.getPosition(), polygon) == true) {
+                listadoIdLineasSeleccionadas.push(markerA.line_id)
+            }
+        }) 
+        listadoIdSeleccionados = listadoIdSeleccionados.concat(listadoIdLineasSeleccionadas)
+        // pintarEnVerdeItemsSeleccionados(listadoIdSeleccionados)
+        createNewTrack(listadoIdLineasSeleccionadas) 
+    })
+
     getLinesCollection()
 }
 
