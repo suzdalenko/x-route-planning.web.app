@@ -98,7 +98,7 @@
                   window.localStorage.setItem('password', password)
                   PythonLogin(user.uid, email, password).then(loginOk => {
                     if(loginOk == 'ok'){
-                        window.location.href = '/pages/dashboard.html'
+                        window.location.href = '/pages/dashboard.html#email='+email
                     }
                   })
                 })

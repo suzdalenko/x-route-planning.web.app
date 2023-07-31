@@ -23,3 +23,21 @@
 .t_d_none, .t_d_none:hover{
     text-decoration: none;
 }
+.mat_top{
+    margin-top: 111px;
+}
+.blockTruck{
+    margin-bottom: 3px; border-radius: 3px; padding: 3px;
+    position: relative;
+}
+.blockTruck:hover{
+    cursor: pointer;
+}
+.smallDescrip{
+    font-size: 13px;
+}
+.positonRigth{
+    position: absolute;
+    top: 11px;
+    right: 11px;
+}

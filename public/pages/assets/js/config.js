@@ -9,7 +9,6 @@ const config = {
     measurementId: "G-VHTNMZ1N44"
 }
 
-
 let PYTHON_URL = 'https://misexo.pythonanywhere.com/myapp/'
     window.localStorage.setItem('PYTHON_URL', PYTHON_URL)
 
@@ -42,7 +41,7 @@ if( window.location.href.includes('http://127.0.0.1')){
 async function PythonLogin(uid, email, password){
     return fetch(PYTHON_URL+'userLogin/?uid='+uid+"&email="+email+"&password="+password).then(res => res.json()).then(django => { console.log(django)
         if(django.user_id > 0){
-            document.title = django.email
+            document.title = 'Listado rutas '+django.email
             window.localStorage.setItem('user_id', django.user_id)
             return 'ok'
         } else {

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planificador de Rutas</title>
     <link rel="icon" type="image/png" href="https://xsuzdalenko.github.io/xboss/firebase/public/assets/imgs/c.png">
-    <script defer src="/pages/assets/js/config.js"></script>
+    <script src="/pages/assets/js/config.js"></script>
     <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-app-compat.js"></script>
     <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-auth-compat.js"></script>
     <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-analytics-compat.js"></script>
@@ -89,7 +89,7 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Pais</h6><br>
-                                    <input type="text" class="text-lg mb-0" />
+                                    <input type="text" class="text-lg mb-0" id="inputCountry" />
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Provincia</h6><br>
-                                    <input type="text" class="text-lg mb-0" />
+                                    <input type="text" class="text-lg mb-0" id="inputRegion" />
                                 </div>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Cuidad</h6><br>
-                                    <input type="text" class="text-lg mb-0" />
+                                    <input type="text" class="text-lg mb-0" id="inputCity" />
                                 </div>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
 
             function openOrdersOnMap(collectionId){
                 window.localStorage.setItem('collection_id', collectionId)
-                window.location.href = '/pages/ordersonmap.html'
+                window.location.href = '/pages/ordersonmap.html#collection='+collectionId
             }
 
             function LoadUserCollectionTable(){
@@ -259,5 +259,6 @@
     </script>
     <script src="https://kit.fontawesome.com/778b634ff9.js" crossorigin="anonymous"></script>
     <script src="/pages/assets/js/final.js"></script>
+    <script src="/pages/assets/js/pointofexit.js"></script>
 </body>
 </html>
