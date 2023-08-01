@@ -181,8 +181,8 @@ document.getElementById("releaseOrdersId").addEventListener("click", () => {
             formData.append('uid', UID)
             formData.append('collection_id', COLLECTION_ID)
         fetch(MYSITE_URL+'post_parameters/release_orders/', {method: "POST", body: formData}).then(res => res.json()).then(res => {
-            getLinesCollection()
-        }).catch(e => { getLinesCollection(); })
+            initMap()
+        }).catch(e => { initMap(); })
     }
 })
 
