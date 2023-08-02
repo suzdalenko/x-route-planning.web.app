@@ -160,8 +160,9 @@
             })          
 
             function openOrdersOnMap(collectionId){
+                let userId = window.localStorage.getItem('user_id')
                 window.localStorage.setItem('collection_id', collectionId)
-                window.location.href = '/pages/ordersonmap.html#collection='+collectionId
+                window.location.href = '/pages/ordersonmap.html#user='+userId+'&collection='+collectionId
             }
 
             function LoadUserCollectionTable(){

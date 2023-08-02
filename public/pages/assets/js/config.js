@@ -39,11 +39,14 @@ if( window.location.href.includes('http://127.0.0.1')){
 
 
 async function PythonLogin(uid, email, password){
-    return fetch(PYTHON_URL+'userLogin/?uid='+uid+"&email="+email+"&password="+password).then(res => res.json()).then(django => { console.log(django)
+    return fetch(PYTHON_URL+'userLogin/?uid='+uid+"&email="+email+"&password="+password).then(res => res.json()).then(django => { console.log("juijjui", django)
         if(django.user_id > 0){
             document.title = 'Listado rutas '+django.email
             window.localStorage.setItem('user_id', django.user_id)
-            return 'ok'
+            window.localStorage.setItem('country', django.country)
+            window.localStorage.setItem('region', django.region)
+            window.localStorage.setItem('city', django.city)
+            return {res:"ok", user_id: django.user_id}
         } else {
             console.log('config.js Backend django error')
         }

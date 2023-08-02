@@ -25,7 +25,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
             <div>
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <h1 class="h4 text-gray-800"><a href="/pages/ordersonmap.html" class="t_d_none"><i class="fa fa-arrow-alt-circle-left" aria-hidden="true"></i> Suzdalenko</a></h1>
+                    <h1 class="h4 text-gray-800"><a href="/pages/ordersonmap.html" class="t_d_none" id="idLinkEmailUserId"><i class="fa fa-arrow-alt-circle-left" aria-hidden="true"></i> Suzdalenko</a></h1>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link text-primary hoverpointer" title="Descargar archivo csv de ejemplo" href="https://x-route-planning.web.app/demo.csv">X</a>
@@ -54,17 +54,18 @@
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Listado Pedidos</h6>
                     </div>
-                    <div class="card-body" id="divListOrders"></div>
+                    <div class="card-body">
+                        <div id="listOrders"></div>
+                    </div>
                 </div>
             </div>
+          
             <div class="col-lg-9">
                 <div class="card shadow">
                     <a class="d-block card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Ruta</h6>
+                        <h6 class="m-0 font-weight-bold text-primary"><span id="spanRoute">Ruta</span> | <span id="totalA">Distancia</span> | <span id="kgA"> Kilos</span></h6>
                     </a>
-                    <div class="collapse show" id="collapseCardExample">
                         <div class="card-body" id="googleMap" style="width: 100%; height: 84vh;"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -72,12 +73,6 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDKhqes2S-VlNPQmOi70qpJMkaCfhzyt4&callback=initMap&v=weekly" defer></script>
     <script src="/pages/assets/js/routeview.js"></script>
-    <script>
-        function initMap (){
-
-        }
-
-        window.initMap = initMap
-    </script>
+    <script src="/pages/assets/js/final.js"></script>
 </body>
 </html>
