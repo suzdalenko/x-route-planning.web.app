@@ -51,15 +51,24 @@ function getLinesCollection() {
             let numberKg       = 0
             let htmlOrdersCont = ''
             
+            let pedidosEsteCamion = []
             ORDERS_LIST.forEach(currentOrder => {
+                if(truckNumber == currentOrder.truck){
+                    pedidosEsteCamion.push(currentOrder)
+                }
+            })
+            /* ordeno pedidos por orden */
+            pedidosEsteCamion.sort((a, b) => {return a.by_order - b.by_order ;})
+            pedidosEsteCamion.forEach(currentOrder => {
                 if(truckNumber == currentOrder.truck){
                     if(currentOrder.truck_name){ truckNameRes = currentOrder.truck_name }
                     numberPalets   += currentOrder.palets
                     numberKg       += currentOrder.kilos
-                    htmlOrdersCont += currentOrder.client_name+` (`+currentOrder.palets+`, `+currentOrder.kilos+`)<br>`
+                     htmlOrdersCont += currentOrder.client_name+` (`+currentOrder.palets+`, `+currentOrder.kilos+`)<br>`
                 }
-                console.log(currentOrder)
+               
             })
+
             switch (truckNumber) {
                 case   1: colorDelCamion = 'style="background-color:#FF00DC;color:white;"'; break
                 case   2: colorDelCamion = 'style="background-color:#7F0000;color:white;"'; break
@@ -80,7 +89,7 @@ function getLinesCollection() {
                                     </div>    
                                     <div class="smallDescrip" id="listOrdersInTrack`+truckNumber+`" `+getInfoDisplaing(truckNumber)+`>`+htmlOrdersCont+`</div>
                                 </div>`
-        })
+        });
 
         listTrackId.innerHTML = htmlContentTrusk
         
@@ -198,7 +207,6 @@ function ShowHideListOrders(truckNumber, event){
         } 
         window.localStorage.setItem(nameId, listOrdersInTrack.style.display)
     }
-    console.log(window.localStorage)
 }
 
 function getInfoDisplaing(trackId){
@@ -213,3 +221,11 @@ function openRoutePage(truckNumber, event){
     window.location.href = '/pages/routeview.html#user='+USER_ID+'collection='+COLLECTION_ID+'&track='+truckNumber
 }
 
+document.getElementById("downloadExcelFile").addEventListener("click", () => {
+    LoaderSuzdalenko('block')
+    fetch(MYSITE_URL+'basic_report/?collection_id='+COLLECTION_ID+'&user_id='+USER_ID).then(res => res.json()).then(res => {
+        let onlyReport = MYSITE_URL.replaceAll("myapp/", "")
+        window.open(onlyReport+res.res, "_blank")
+        LoaderSuzdalenko('none')
+    }).catch( e => { LoaderSuzdalenko('none'); })
+})
