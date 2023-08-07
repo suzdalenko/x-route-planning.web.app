@@ -119,10 +119,11 @@ function createNewTrack (listadoIdLineasSeleccionadas){
         setTimeout(() => {
             LoaderSuzdalenko('block')        
             let trackIdNameEmpty = prompt('¿Crear camión nuevo o añadir pedidos a ya existente? \n NOMBRE DE CAMIÓN - se crea un nuevo camión con nombre \n NUMERO DE CAMIÓN - se añade pedidos a un camión existente \n VACIO - se crea un nuevo camión sin nombre', '')
+            if(trackIdNameEmpty == null){ window.location.reload(); }
             let stringArray      = ''
                 listadoIdLineasSeleccionadas.forEach(item => { stringArray += item+','; })
             let typeTrack        = ''
-
+            
             if(trackIdNameEmpty == ''){
                 typeTrack = "empty"
             } else {

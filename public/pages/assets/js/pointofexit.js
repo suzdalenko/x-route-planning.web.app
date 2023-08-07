@@ -34,8 +34,6 @@ function pushLocatonToWebPage(){
     inputCountry.value = window.localStorage.getItem("country") || "España" 
     inputRegion.value  = window.localStorage.getItem("region") || "Cantabria"
     inputCity.value    = window.localStorage.getItem("city") || "Santander"
-    
-    console.log("==>", window.localStorage.getItem("country"))
 }  
 
 pushLocatonToWebPage()
