@@ -83,9 +83,10 @@ function getLinesCollection() {
                 case  11: colorDelCamion = 'style="background-color:#90a8ea;color:white;"'; break
                 default : colorDelCamion = 'style="background-color:#90a8ea;color:white;"'; break
             }
-            htmlContentTrusk += `<div class="blockTruck" `+colorDelCamion+`>
+            htmlContentTrusk += `<div class="blockTruck" `+colorDelCamion+`>                
                                     <div onclick="ShowHideListOrders(`+truckNumber+`, event)">`+truckNumber+`. `+truckNameRes+` <br> Pal `+numberPalets+`, Kg `+numberKg+`
-                                        <i class="fa fa-arrow-right positonRigth" onclick="openRoutePage(`+truckNumber+`, event)"></i> 
+                                        <i class="fas fa-solid fa-file-signature positonRigth33" onclick="changeTruckName(`+truckNumber+`, event)"></i> 
+                                        <i class="fa fa-arrow-right positonRigth11" onclick="openRoutePage(`+truckNumber+`, event)"></i> 
                                     </div>    
                                     <div class="smallDescrip" id="listOrdersInTrack`+truckNumber+`" `+getInfoDisplaing(truckNumber)+`>`+htmlOrdersCont+`</div>
                                 </div>`
@@ -222,6 +223,23 @@ function openRoutePage(truckNumber, event){
     window.location.href = '/pages/routeview.html#user='+USER_ID+'collection='+COLLECTION_ID+'&track='+truckNumber
 }
 
+function changeTruckName(truckNumber, event){
+    event.preventDefault()
+    event.stopPropagation()
+    let truckName = prompt(miLang.truckName+' '+truckNumber).trim()
+    if(truckName){
+        let formData = new FormData()
+            formData.append("name",truckName)
+            formData.append("number",truckNumber)
+            formData.append("collection_id", COLLECTION_ID)
+            formData.append("user_id", USER_ID)
+            formData.append("uid", UID)
+        fetch(MYSITE_URL+'post_parameters/change_track_name/', {method:"POST", body:formData}).then(res => res.json()).then(res => {
+            initMap()
+        }).catch(e => initMap())
+    }
+}
+
 document.getElementById("downloadExcelFile").addEventListener("click", () => {
     LoaderSuzdalenko('block')
     fetch(MYSITE_URL+'basic_report/?collection_id='+COLLECTION_ID+'&user_id='+USER_ID).then(res => res.json()).then(res => {
@@ -230,3 +248,4 @@ document.getElementById("downloadExcelFile").addEventListener("click", () => {
         LoaderSuzdalenko('none')
     }).catch( e => { LoaderSuzdalenko('none'); })
 })
+

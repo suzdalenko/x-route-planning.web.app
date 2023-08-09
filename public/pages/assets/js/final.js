@@ -22,3 +22,12 @@ if(idLinkEmailUserId){
         idLinkEmailUserId.href = '/pages/ordersonmap.html#user='+userIdLink+'&collection='+collection_id
     }
 }
+
+
+let aReloadId = document.getElementById("aReloadId")
+if(aReloadId){
+    aReloadId.addEventListener("click", function(event){
+        event.preventDefault()
+        window.location.reload()
+    })   
+}

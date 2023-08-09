@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedidos en el Mapa</title>
     <link rel="icon" type="image/png" href="https://xsuzdalenko.github.io/xboss/firebase/public/assets/imgs/c.png">
-    <script defer src="/pages/assets/js/config.js"></script>
-    <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-app-compat.js"></script>
-    <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-auth-compat.js"></script>
-    <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-analytics-compat.js"></script>
+    <script src="/pages/assets/js/config.js"></script>
+    <script src="/pages/assets/js/language.js"></script>
+    <script src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-analytics-compat.js"></script>
 
     <link href="/sb/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -25,7 +26,10 @@
         <div id="content-wrapper" class="d-flex flex-column">
             <div>
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <h1 class="h4 text-gray-800"><a href="/pages/dashboard.html" class="t_d_none" id="idLinkEmailUserId"><i class="fa fa-arrow-alt-circle-left" aria-hidden="true"></i> Suzdalenko</a></h1>
+                    <h1 class="h4 text-gray-800">
+                        <a href="/pages/dashboard.html" class="t_d_none" id="idLinkEmailUserId"><i class="fa fa-arrow-alt-circle-left" aria-hidden="true"></i></a>
+                        <a href="/" id="aReloadId" class="t_d_none">Pedidos</a>
+                    </h1>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link text-primary hoverpointer" title="Descargar archivo EXCEL" id="downloadExcelFile"><i class="fas fa-download"></i></a>

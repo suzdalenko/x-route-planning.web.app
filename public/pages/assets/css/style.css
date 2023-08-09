@@ -36,8 +36,13 @@
 .smallDescrip{
     font-size: 13px;
 }
-.positonRigth{
+.positonRigth11{
     position: absolute;
     top: 11px;
     right: 11px;
+}
+.positonRigth33{
+    position: absolute;
+    top: 11px;
+    right: 33px;
 }
