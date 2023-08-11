@@ -72,18 +72,8 @@ function getWeekNumber(dateString) {
 /*
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RY3VZK8EH1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RY3VZK8EH1');
-</script>
 
 
-
-*/
 
 let headSite = document.getElementsByTagName('head')[0];
 let scriptSite = document.createElement('script');
@@ -94,3 +84,6 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-RY3VZK8EH1');
+
+
+*/
