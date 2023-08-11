@@ -59,14 +59,13 @@ function getLinesCollection() {
             })
             /* ordeno pedidos por orden */
             pedidosEsteCamion.sort((a, b) => {return a.by_order - b.by_order ;})
-            pedidosEsteCamion.forEach(currentOrder => {
+            pedidosEsteCamion.forEach(currentOrder => {                                 
                 if(truckNumber == currentOrder.truck){
                     if(currentOrder.truck_name){ truckNameRes = currentOrder.truck_name }
                     numberPalets   += currentOrder.palets
                     numberKg       += currentOrder.kilos
-                     htmlOrdersCont += currentOrder.client_name+` (`+currentOrder.palets+`, `+currentOrder.kilos+`)<br>`
+                     htmlOrdersCont += `<i class="fa fa-truck" onclick="releaseTheOrder(`+currentOrder.line_id+`,`+truckNumber+`, event)"></i> `+currentOrder.client_name+` (`+currentOrder.palets+`, `+currentOrder.kilos+`)<br>`
                 }
-               
             })
 
             switch (truckNumber) {
@@ -83,8 +82,8 @@ function getLinesCollection() {
                 case  11: colorDelCamion = 'style="background-color:#90a8ea;color:white;"'; break
                 default : colorDelCamion = 'style="background-color:#90a8ea;color:white;"'; break
             }
-            htmlContentTrusk += `<div class="blockTruck" `+colorDelCamion+`>                
-                                    <div onclick="ShowHideListOrders(`+truckNumber+`, event)">`+truckNumber+`. `+truckNameRes+` <br> Pal `+numberPalets+`, Kg `+numberKg+`
+            htmlContentTrusk += `<div class="blockTruck" `+colorDelCamion+`>             
+                                    <div onclick="ShowHideListOrders(`+truckNumber+`, event)">`+truckNumber+`. `+truckNameRes+` <br> Pal `+numberPalets+`, Kg `+numberKg+` <i class="fa fa-trash" onclick="releaseTheTrusk(`+truckNumber+`, event)"></i>
                                         <i class="fas fa-solid fa-file-signature positonRigth33" onclick="changeTruckName(`+truckNumber+`, event)"></i> 
                                         <i class="fa fa-arrow-right positonRigth11" onclick="openRoutePage(`+truckNumber+`, event)"></i> 
                                     </div>    
@@ -237,6 +236,45 @@ function changeTruckName(truckNumber, event){
         fetch(MYSITE_URL+'post_parameters/change_track_name/', {method:"POST", body:formData}).then(res => res.json()).then(res => {
             initMap()
         }).catch(e => initMap())
+    }
+}
+
+function releaseTheTrusk(truckNumber, event){
+    event.preventDefault()
+    event.stopPropagation()
+    let confirmReleseTruck = confirm(miLang.releseTruck+truckNumber+'?')
+    if(confirmReleseTruck){
+        let formData = new FormData()
+        formData.append("number",truckNumber)
+        formData.append("collection_id", COLLECTION_ID)
+        formData.append("user_id", USER_ID)
+        formData.append("uid", UID)
+        fetch(MYSITE_URL+'post_parameters/relese_the_track/', {method:"POST", body:formData}).then(res => res.json()).then(res => {
+            initMap()
+        }).catch(e => initMap())
+    }
+}
+
+function releaseTheOrder(lineId, truckNumber, event){
+    event.preventDefault()
+    event.stopPropagation()
+    let releaseOrderP = prompt(miLang.releaseOrder)
+    if(releaseOrderP != null){
+        let formData = new FormData()
+        if(releaseOrderP.trim() == ''){ 
+            formData.append("action", "free")                                   
+        } else { 
+            formData.append("action", "change")
+        }
+            formData.append("line_id", lineId)
+            formData.append("new_truck", releaseOrderP)
+            formData.append("truck_number", truckNumber)
+            formData.append("collection_id", COLLECTION_ID)
+            formData.append("user_id", USER_ID)
+            formData.append("uid", UID)
+        fetch(MYSITE_URL+'post_parameters/relese_the_order/', {method:"POST", body:formData}).then(res => res.json()).then(res => {
+            initMap()
+        }).catch(e => initMap())   
     }
 }
 

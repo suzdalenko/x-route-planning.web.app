@@ -3,9 +3,13 @@ var miLang = null
 var langRepository = {
     en:{
         truckName: "Truck name",
+        releseTruck: "¿Liberar camion numero ",
+        releaseOrder: "¿Release order or change truck?",
     },
     es:{
         truckName: "Nombre de camion",
+        releseTruck: "¿Release truck number ",
+        releaseOrder: "¿Release order or change truck?",
     }
 }
 
