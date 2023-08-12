@@ -244,14 +244,15 @@ function releaseTheTrusk(truckNumber, event){
     event.stopPropagation()
     let confirmReleseTruck = confirm(miLang.releseTruck+truckNumber+'?')
     if(confirmReleseTruck){
+        LoaderSuzdalenko('block')
         let formData = new FormData()
         formData.append("number",truckNumber)
         formData.append("collection_id", COLLECTION_ID)
         formData.append("user_id", USER_ID)
         formData.append("uid", UID)
         fetch(MYSITE_URL+'post_parameters/relese_the_track/', {method:"POST", body:formData}).then(res => res.json()).then(res => {
-            initMap()
-        }).catch(e => initMap())
+            initMap(); LoaderSuzdalenko('none')
+        }).catch(e => { initMap(); LoaderSuzdalenko('none'); })
     }
 }
 
@@ -260,6 +261,7 @@ function releaseTheOrder(lineId, truckNumber, event){
     event.stopPropagation()
     let releaseOrderP = prompt(miLang.releaseOrder)
     if(releaseOrderP != null){
+        LoaderSuzdalenko('block')
         let formData = new FormData()
         if(releaseOrderP.trim() == ''){ 
             formData.append("action", "free")                                   
@@ -273,8 +275,8 @@ function releaseTheOrder(lineId, truckNumber, event){
             formData.append("user_id", USER_ID)
             formData.append("uid", UID)
         fetch(MYSITE_URL+'post_parameters/relese_the_order/', {method:"POST", body:formData}).then(res => res.json()).then(res => {
-            initMap()
-        }).catch(e => initMap())   
+            initMap(); LoaderSuzdalenko('none')
+        }).catch(e => { initMap(); LoaderSuzdalenko('none'); })   
     }
 }
 
