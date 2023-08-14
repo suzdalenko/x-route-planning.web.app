@@ -219,7 +219,7 @@ function getInfoDisplaing(trackId){
 function openRoutePage(truckNumber, event){
     event.stopPropagation()
     window.localStorage.setItem("track_page_open", truckNumber)
-    window.location.href = '/pages/routeview.html#user='+USER_ID+'collection='+COLLECTION_ID+'&track='+truckNumber
+    window.location.href = '/pages/routeview.html#user='+USER_ID+'&collection='+COLLECTION_ID+'&track='+truckNumber
 }
 
 function changeTruckName(truckNumber, event){

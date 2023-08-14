@@ -18,8 +18,9 @@ function getRouteTrack(){
     waypoints         = []
     listadoMarkers    = []
     kg_route          = 0
+    leenda_orders     = ""
 
-    fetch(MYSITE_URL+'lines_collection/orders_by_route/?collection_id='+COLLECTION_ID+"&truck_id="+TRACK_ID).then(res => res.json()).then(res => { console.log(res)
+    fetch(MYSITE_URL+'lines_collection/orders_by_route/?collection_id='+COLLECTION_ID+"&truck_id="+TRACK_ID).then(res => res.json()).then(res => { 
         let firstElement = res.result[0]
         lstadoLocations.push(new google.maps.LatLng(firstElement.plat, firstElement.plng))
         // spanRoute
@@ -42,7 +43,11 @@ function getRouteTrack(){
             listadoMarkers.push(ubicacion)
             waypoints.push({location: new google.maps.LatLng(item.clat, item.clng)})
             kg_route += item.kilos
-            leenda_orders += `<div>`+countOrder+`. Pedido-`+item.order_id+`, `+item.client_name+`<br> Paletas `+item.palets+`, Kilos `+item.kilos+`<hr></div>`
+            leenda_orders += `<div class="itemPedido" draggable="true" ondragstart="dragFunction(event,`+item.id+`,`+item.by_order+`)" ondrop="dropFunction(event,`+item.id+`,`+item.by_order+`)" ondragover="allowDropFunction(event)">
+                                `+countOrder+`. Pedido-`+item.order_id+`, `+item.client_name+`<br>
+                                Paletas `+item.palets+`, Kilos `+item.kilos+`<br>
+                              </div>`
+            
         })
 
         displayRoute(lstadoLocations, waypoints, directionsService, directionsRenderer)

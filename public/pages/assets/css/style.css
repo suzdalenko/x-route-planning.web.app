@@ -9,7 +9,7 @@
     width: 111px; height: 111px;
 }
 #loaderDiv{
-    position: absolute; top: 22%; left: 47%; z-index: 111;
+    position: absolute; top: 44%; left: 47%; z-index: 111;
 }
 .a_color_blue{
     color: blue;
@@ -45,4 +45,16 @@
     position: absolute;
     top: 11px;
     right: 33px;
+}
+#divListOrders, #listOrders{
+    color:black;
+}
+.itemPedido{
+    background-color: rgb(215, 249, 242);
+    margin-bottom: 5px;
+    border-radius: 7px;
+    padding: 5px;
+}
+.itemPedido:hover{
+    cursor: pointer;
 }
