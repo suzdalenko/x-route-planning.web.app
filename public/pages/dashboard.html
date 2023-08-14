@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planificación de Rutas</title>
-    <link rel="icon" type="image/png" href="https://xsuzdalenko.github.io/xboss/firebase/public/assets/imgs/c.png">
+    <link rel="icon" type="image/png" href="/pages/assets/img/c.png">
     <script src="/pages/assets/js/config.js"></script>
     <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-app-compat.js"></script>
     <script defer src="https://x-route-planning.web.app/__/firebase/9.22.1/firebase-auth-compat.js"></script>
@@ -116,7 +116,7 @@
                 </div>
 
                 <div class="container-fluid">
-                    <p class="h6 mb-4 text-gray-800"><a href="https://xboss.es" target="_blank">Alexey Suzdalenko</a></p>
+                    <p class="h6 mb-4 text-gray-800"><a href="https://xboss.es" target="_blank">xBoss</a></p>
                 </div>
             </div>
         </div>
@@ -149,15 +149,15 @@
                     formData.append('uid', window.localStorage.getItem('uid'))
                     formData.append('date', routingDateInput.value)
                     formData.append('week', getWeekNumber(routingDateInput.value))
-                    LoaderSuzdalenko('block')
+                    LoaderRoutePlanner('block')
                     
                     fetch(PYTHON_URL+'uploadFileCollection/', {method:'POST', body: formData}).then(res => res.json()).then(res => {
                         console.log('res', res)
                         menuUploadFileDiv.style.display = 'none'
-                        LoaderSuzdalenko('none')
+                        LoaderRoutePlanner('none')
                         LoadUserCollectionTable()
                     }).catch(e => {
-                        LoaderSuzdalenko('none')
+                        LoaderRoutePlanner('none')
                         alert(e)
                     })
             })          
@@ -204,15 +204,15 @@
             function deleteCollection(collectionId, fileName){
                 let varPermisDelete = confirm('¿Eliminar archivo '+fileName+' y sus rutas?')
                 if(varPermisDelete){
-                    LoaderSuzdalenko('block')
+                    LoaderRoutePlanner('block')
                     let formData = new FormData();
                         formData.append('user_id', window.localStorage.getItem('user_id'))
                         formData.append('uid', window.localStorage.getItem('uid'))
                         formData.append('collection_id', collectionId)
                         fetch(PYTHON_URL+'deleteCollection/', {method:'POST', body:formData}).then(res => res.json()).then((res) => {
-                           LoaderSuzdalenko('none'); LoadUserCollectionTable()
+                           LoaderRoutePlanner('none'); LoadUserCollectionTable()
                         }).catch(e => {
-                            LoaderSuzdalenko('none');
+                            LoaderRoutePlanner('none');
                         })
                 }
             }

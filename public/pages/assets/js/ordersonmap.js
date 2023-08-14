@@ -117,7 +117,7 @@ function addMarkersInMap() {
 function createNewTrack (listadoIdLineasSeleccionadas){
     if(listadoIdLineasSeleccionadas.length > 0){
         setTimeout(() => {
-            LoaderSuzdalenko('block')        
+            LoaderRoutePlanner('block')        
             let trackIdNameEmpty = prompt('¿Crear camión nuevo o añadir pedidos a ya existente? \n NOMBRE DE CAMIÓN - se crea un nuevo camión con nombre \n NUMERO DE CAMIÓN - se añade pedidos a un camión existente \n VACIO - se crea un nuevo camión sin nombre', '')
             if(trackIdNameEmpty == null){ window.location.reload(); }
             let stringArray      = ''
@@ -148,8 +148,8 @@ function createNewTrack (listadoIdLineasSeleccionadas){
 
             fetch(MYSITE_URL+'post_parameters/create_new_track/', {method:'POST', body: formData}).then(res => res.json()).then(result => {
                 initMap()
-                LoaderSuzdalenko('none')
-            }).catch( e => LoaderSuzdalenko('none'))
+                LoaderRoutePlanner('none')
+            }).catch( e => LoaderRoutePlanner('none'))
         }, 111)
     }
 }
@@ -244,15 +244,15 @@ function releaseTheTrusk(truckNumber, event){
     event.stopPropagation()
     let confirmReleseTruck = confirm(miLang.releseTruck+truckNumber+'?')
     if(confirmReleseTruck){
-        LoaderSuzdalenko('block')
+        LoaderRoutePlanner('block')
         let formData = new FormData()
         formData.append("number",truckNumber)
         formData.append("collection_id", COLLECTION_ID)
         formData.append("user_id", USER_ID)
         formData.append("uid", UID)
         fetch(MYSITE_URL+'post_parameters/relese_the_track/', {method:"POST", body:formData}).then(res => res.json()).then(res => {
-            initMap(); LoaderSuzdalenko('none')
-        }).catch(e => { initMap(); LoaderSuzdalenko('none'); })
+            initMap(); LoaderRoutePlanner('none')
+        }).catch(e => { initMap(); LoaderRoutePlanner('none'); })
     }
 }
 
@@ -261,7 +261,7 @@ function releaseTheOrder(lineId, truckNumber, event){
     event.stopPropagation()
     let releaseOrderP = prompt(miLang.releaseOrder)
     if(releaseOrderP != null){
-        LoaderSuzdalenko('block')
+        LoaderRoutePlanner('block')
         let formData = new FormData()
         if(releaseOrderP.trim() == ''){ 
             formData.append("action", "free")                                   
@@ -275,17 +275,17 @@ function releaseTheOrder(lineId, truckNumber, event){
             formData.append("user_id", USER_ID)
             formData.append("uid", UID)
         fetch(MYSITE_URL+'post_parameters/relese_the_order/', {method:"POST", body:formData}).then(res => res.json()).then(res => {
-            initMap(); LoaderSuzdalenko('none')
-        }).catch(e => { initMap(); LoaderSuzdalenko('none'); })   
+            initMap(); LoaderRoutePlanner('none')
+        }).catch(e => { initMap(); LoaderRoutePlanner('none'); })   
     }
 }
 
 document.getElementById("downloadExcelFile").addEventListener("click", () => {
-    LoaderSuzdalenko('block')
+    LoaderRoutePlanner('block')
     fetch(MYSITE_URL+'basic_report/?collection_id='+COLLECTION_ID+'&user_id='+USER_ID).then(res => res.json()).then(res => {
         let onlyReport = MYSITE_URL.replaceAll("myapp/", "")
         window.open(onlyReport+res.res, "_blank")
-        LoaderSuzdalenko('none')
-    }).catch( e => { LoaderSuzdalenko('none'); })
+        LoaderRoutePlanner('none')
+    }).catch( e => { LoaderRoutePlanner('none'); })
 })
 

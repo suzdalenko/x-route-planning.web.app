@@ -54,7 +54,7 @@ async function PythonLogin(uid, email, password){
 }
 
 
-function LoaderSuzdalenko(state){
+function LoaderRoutePlanner(state){
     let loaderDiv = document.getElementById('loaderDiv')
     if(loaderDiv){
         loaderDiv.style.display = state

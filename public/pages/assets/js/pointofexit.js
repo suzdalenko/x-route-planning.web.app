@@ -11,7 +11,7 @@ let inputArray = ['inputCountry', 'inputRegion', 'inputCity']
 function saveLocationData(event){
     let keyCode = event.code || event.key
     if(keyCode.toLowerCase() == 'enter'){
-        LoaderSuzdalenko('block')
+        LoaderRoutePlanner('block')
         let formData = new FormData()
             formData.append("country", inputCountry.value)
             formData.append("region", inputRegion.value)
@@ -25,8 +25,8 @@ function saveLocationData(event){
             window.localStorage.setItem('region', djangoLocation.region || '')
             window.localStorage.setItem('city', djangoLocation.city || '')
             pushLocatonToWebPage()
-            LoaderSuzdalenko('none')
-        }).catch(e => { LoaderSuzdalenko('none'); })
+            LoaderRoutePlanner('none')
+        }).catch(e => { LoaderRoutePlanner('none'); })
     }
 }
 

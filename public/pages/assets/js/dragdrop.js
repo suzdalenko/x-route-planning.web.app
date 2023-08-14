@@ -13,7 +13,7 @@ function dropFunction(x, y, z){
     SECOND_ID      = y
     SECOND_BYORDER = z          ; console.log('firstId='+FIRST_ID, 'secondId='+SECOND_ID); console.log('first='+FIRST_BYORDER, 'second='+SECOND_BYORDER,)
     if(FIRST_ID == SECOND_ID || FIRST_BYORDER == SECOND_BYORDER) return
-    LoaderSuzdalenko('block')
+    LoaderRoutePlanner('block')
     let formData = new FormData()
         formData.append("first_id", FIRST_ID)
         formData.append("first_or", FIRST_BYORDER)
@@ -25,10 +25,10 @@ function dropFunction(x, y, z){
         formData.append("user_id", USER_ID)
     fetch(MYSITE_URL+'post_parameters/change_by_order/', {method: "POST", body: formData}).then(res => res.json()).then(res => {
         initMap()
-        LoaderSuzdalenko('none')
+        LoaderRoutePlanner('none')
     }).catch(e => {
         initMap()
-        LoaderSuzdalenko('none')
+        LoaderRoutePlanner('none')
     })
 }
 
