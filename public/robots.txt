@@ -1,7 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /old.html
-
-
+Disallow: /pages/text.html
 Host: https://x-route-planning.web.app
 Sitemap: https://x-route-planning.web.app/sitemap.xml

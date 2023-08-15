@@ -54,7 +54,7 @@
             <div class="col-lg-3" style="overflow-y: auto; max-height: 88vh;">
                 <div class="card shadow">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Listado Pedidos</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Listado Pedidos <a class="btn btn-primary btn-icon-split btn-sm" id="recalcRoute" title="Recalcular Ruta respetando primera parada">Recalcular Ruta</a></h6>
                     </div>
                     <div class="card-body">
                         <div id="listOrders"></div>
@@ -64,9 +64,9 @@
           
             <div class="col-lg-9">
                 <div class="card shadow">
-                    <a class="d-block card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary"><span id="spanRoute">Ruta</span> | <span id="totalA">Distancia</span> | <span id="kgA"> Kilos</span></h6>
-                    </a>
+                    <span class="d-block card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary"><span id="spanRoute">Ruta</span> | <span id="totalA">Distancia</span> | <span id="palA"> Paletas</span> <span id="kgA"> Kilos</span></h6>
+                    </span>
                         <div class="card-body" id="googleMap" style="width: 100%; height: 84vh;"></div>
                 </div>
             </div>
