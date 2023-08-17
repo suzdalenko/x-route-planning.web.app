@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <script src="/pages/assets/js/config.js"></script>
+    </head>
+    <body>
+        <p>Users:</p>
+        <div id="divId"></div>
+        <p>Collections:</p>
+    </body>
+</html>
+<script>
+    let userHtml = ''
+    fetch(PYTHON_URL+'report/jui/').then(res => res.json()).then(res => {
+        console.log(res.jui)
+        res.jui.forEach(element => {
+            userHtml += '<div>'+element+'</div>'
+        })
+        document.getElementById('divId').innerHTML = userHtml
+    })
+</script>
