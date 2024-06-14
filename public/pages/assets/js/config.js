@@ -9,33 +9,25 @@ const config = {
     measurementId: "G-VHTNMZ1N44"
 }
 
-let PYTHON_URL = 'https://misexo.pythonanywhere.com/myapp/'
+const firebaseConfigDontUse = {
+    apiKey: "AIzaSyDZ6cpfLEHB6YTN_C1UXw5dpaOuO3041s8",
+    authDomain: "x-route-planning.firebaseapp.com",
+    databaseURL: "https://x-route-planning-default-rtdb.firebaseio.com",
+    projectId: "x-route-planning",
+    storageBucket: "x-route-planning.appspot.com",
+    messagingSenderId: "536796594344",
+    appId: "1:536796594344:web:bfff3ae5a787d1a457029d",
+    measurementId: "G-VHTNMZ1N44"
+  };
+  
+
+let PYTHON_URL = 'https://suzdalenkoalexey.pythonanywhere.com/myapp/'
     window.localStorage.setItem('PYTHON_URL', PYTHON_URL)
 
 if( window.location.href.includes('http://127.0.0.1')){
     PYTHON_URL = 'http://127.0.0.1:8000/myapp/'
     window.localStorage.setItem('PYTHON_URL', PYTHON_URL)
 } 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 async function PythonLogin(uid, email, password){
@@ -48,9 +40,12 @@ async function PythonLogin(uid, email, password){
             window.localStorage.setItem('city', django.city)
             return {res:"ok", user_id: django.user_id}
         } else {
-            console.log('config.js Backend django error')
+            console.log('config.js Backend django error');
+            alert('Error 0');
         }
-    }).catch( e => console.log('Backend django error '+e))
+    }).catch( e => {
+        console.log('Error 1 '+e);
+    })
 }
 
 

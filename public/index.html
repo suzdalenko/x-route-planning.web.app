@@ -3,7 +3,10 @@
 <head>
     <!-- 
         firebase: suzdalenko.suzdalenko@gmail.com
-        python:   misexo, mi.sexo.web.app@gmail.com
+        python: https://www.pythonanywhere.com/user/suzdalenkoalexey/  simple password
+        
+        misexo, mi.sexo.web.app@gmail.com
+        imagedeveloper
     -->
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="/pages/assets/img/c.png">
@@ -44,7 +47,7 @@
                                             <input type="email" class="form-control form-control-user" id="InputEmail" placeholder="Email...">
                                         </div><br>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="InputPassword" placeholder="Contraseña">
+                                            <input type="password" class="form-control form-control-user" id="InputPassword" placeholder="Contraseña">
                                         </div><br>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -81,6 +84,8 @@
                 if(InputEmail && InputPassword){
                     loginRutas.TryToLogin(InputEmail, InputPassword)
                 }
+                loginRutas.ChangeLoginLeend();
+                loginRutas.SetDefaultLoginInfo();
             })
 
 
@@ -97,7 +102,7 @@
                   window.localStorage.setItem('email', email)
                   window.localStorage.setItem('password', password)
                   PythonLogin(user.uid, email, password).then(loginOk => {
-                    if(loginOk.res == 'ok'){                                               
+                    if(loginOk.res == 'ok'){                                          
                         window.location.href = '/pages/dashboard.html#user='+loginOk.user_id
                     }
                   })
@@ -110,7 +115,7 @@
             SetDefaultLoginInfo(){
                 setTimeout(() => {
                     ALogin.innerText = 'Login'
-                }, 3000)
+                }, 5000)
             }
             SetDefaultEmailPassword(){
                 let userEmail = window.localStorage.getItem('email')
@@ -118,8 +123,12 @@
                 if(userEmail && userPass){
                     InputEmailEl.value    = userEmail
                     InputPasswordEL.value = userPass
-                    this.TryToLogin(userEmail, userPass)
+                    // desactivo login por entrar en la pagina
+                    // this.TryToLogin(userEmail, userPass)
                 }
+            }
+            ChangeLoginLeend(){
+                document.getElementById('ALogin').innerText = 'Iniciando sesión..'
             }
         }
 
