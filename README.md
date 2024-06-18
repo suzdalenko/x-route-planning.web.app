@@ -1,5 +1,5 @@
-###### https://x-route-planning.web.app
-###### [hola](https://www.youtube.com/watch?v=0JO7cPJHLgw)
+###### [ Planificación rutas de reparto web](https://x-route-planning.web.app)
+###### [ Planificación rutas de reparto youtube](https://www.youtube.com/watch?v=0JO7cPJHLgw)
 Online Route Planning.
   1. Upload your Excel with order list.
   2. Organize orders in trucks by delivery zones.
@@ -51,3 +51,9 @@ Proceso de Uso:
         El usuario puede realizar cambios en las rutas y reasignar pedidos según sea necesario.
 
 La Planificación de Rutas Online es una herramienta esencial para cualquier empresa de logística que busque optimizar su proceso de distribución, mejorar la eficiencia de sus entregas y reducir costos operativos.
+
+Esta aplicación se puede ajustar fácilmente a las necesidades de una empresa concreta. Por ejemplo, se pueden personalizar los colores, etiquetas y la lógica de filtrado en los componentes según las especificaciones de la empresa. Además, se pueden añadir funcionalidades adicionales, como filtros avanzados, exportación de datos, notificaciones, entre otros.
+
+Para modificar la aplicación según las preferencias del consumidor o adaptarla a los requerimientos específicos de tu empresa, puedes contactar con el desarrollador. Cualquier información adicional o consulta se puede realizar a través del correo electrónico: suzdalenko.suzdalenko@gmail.com.
+
+Este ejemplo proporciona una base sólida que puedes modificar y expandir según las necesidades específicas de la gestión de rutas, ya sea para la logística de entregas, planificación de viajes, u otros tipos de desplazamientos.
